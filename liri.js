@@ -112,23 +112,18 @@ request(movie, function(error, response, body) {
   if (!error && response.statusCode === 200) {
     var movieTitle = JSON.parse(body).Title;
     var mov = JSON.parse(body);
-    var ratings = JSON.parse(body).Ratings[1];
-    var rotten = ratings.Value;
-    console.log(rotten);
-    console.log(movie);
+    var rotten = JSON.parse(body).Ratings[1].Value;
 
     // Parse the body of the site and recover just the imdbRating
     // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
     console.log("The movie's title is: " + JSON.parse(body).Title);
     console.log(movieTitle + " came out in " + JSON.parse(body).Year);
-    console.log(movieTitle + " is rated " + JSON.parse(body).imdbRating);
-    console.log(movieTitle + " is a film from " + JSON.parse(body).Country);
-    console.log(movieTitle + " is in " + JSON.parse(body).Language);
+    console.log(movieTitle + " is rated " + JSON.parse(body).imdbRating + " by IMDB");
+    console.log(movieTitle + " was filmed in " + JSON.parse(body).Country);
+    console.log(movieTitle + " is in the following languages: " + JSON.parse(body).Language);
     console.log("Plot of " + movieTitle + ": " + JSON.parse(body).Plot);
     console.log("The cast of " + movieTitle + " includes: " + JSON.parse(body).Actors);
     console.log("Rotten Tomatoes gave " + movieTitle + " a rating of " + rotten);
-
-
   }
 
 });
@@ -137,9 +132,9 @@ request(movie, function(error, response, body) {
 // Random task code
 
 function doWhat(inquiry) {
-  fs.readFile('random.txt', 'utf8', function(err, data) {
-    if (err) {
-      console.log(err);
+  fs.readFile('random.txt', 'utf8', function(error, data) {
+    if (error) {
+      console.log(error);
     }
     var output = data.toString().split(','); //splits string from random.txt into an array
     task = output[0]; //set task from random.txt array
