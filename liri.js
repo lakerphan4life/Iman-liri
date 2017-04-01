@@ -97,13 +97,13 @@ function songMe(input) {
 
 function movieMe() {
 
-var t = encodeURI(value);
-
-if (t === null) {
-    t = "Mr. Nobody";
-  }
-
-var movie = "http://www.omdbapi.com/?t=" + t;
+if (value) {
+  value = encodeURI(value);
+}
+else {
+  value = "Mr.+Nobody";
+}
+var movie = "http://www.omdbapi.com/?t=" + value;
 
 // Then run a request to the OMDB API with the movie specified
 request(movie, function(error, response, body) {
@@ -111,7 +111,12 @@ request(movie, function(error, response, body) {
   // If the request is successful (i.e. if the response status code is 200)
   if (!error && response.statusCode === 200) {
     var movieTitle = JSON.parse(body).Title;
+    var mov = JSON.parse(body);
     var ratings = JSON.parse(body).Ratings[1];
+    var rotten = ratings.Value;
+    console.log(rotten);
+    console.log(movie);
+
     // Parse the body of the site and recover just the imdbRating
     // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
     console.log("The movie's title is: " + JSON.parse(body).Title);
@@ -121,23 +126,10 @@ request(movie, function(error, response, body) {
     console.log(movieTitle + " is in " + JSON.parse(body).Language);
     console.log("Plot of " + movieTitle + ": " + JSON.parse(body).Plot);
     console.log("The cast of " + movieTitle + " includes: " + JSON.parse(body).Actors);
-    console.log("Rotten Tomatoes gave " + movieTitle + " a rating of " + ratings.Value);
-    // console.log("Rotten Tomatoes Page for " + movieTitle + " is " + );
-    // NEED ROTTEN TOMATOES URL!!!!!!!!!!!!
-    // console.log('error:', error)
+    console.log("Rotten Tomatoes gave " + movieTitle + " a rating of " + rotten);
+
 
   }
-  else {
-    console.log("The movie's title is: Mr.Nobody");
-    console.log("Mr.Nobody came out in 2009");
-    console.log("Mr.Nobody is rated 7.9");
-    console.log("Mr.Nobody is a film from Belgium, Germany, Canada, France");
-    console.log("Mr.Nobody is in English, Mohawk");
-    console.log("Plot of Mr.Nobody: A boy stands on a station platform as a train is about to leave. Should he go with his mother or stay with his father? Infinite possibilities arise from this decision. As long as he doesn't choose, anything is possible.");
-    console.log("The cast of Mr.Nobody includes: Jared Leto, Sarah Polley, Diane Kruger, Linh Dan Pham");
-    console.log("Rotten Tomatoes gave Mr.Nobody a rating of 64%");
-  }
-
 
 });
 };
